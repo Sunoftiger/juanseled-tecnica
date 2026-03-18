@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Juanseled - Técnica | Calculadora LED</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#f5f5f5;min-height:100vh;padding:20px}
+.container{max-width:500px;margin:0 auto}
+.header{background:#fff;border-radius:16px;padding:20px;margin-bottom:15px;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,0.1)}
+.logo{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px}
+.logo-icon{width:40px;height:40px;background:#cc0c1a;border-radius:8px;display:flex;align-items:center;justify-content:center}
+.logo-icon:after{content:"";width:0;height:0;border-top:10px solid transparent;border-bottom:10px solid transparent;border-left:15px solid #fff;margin-left:4px}
+.logo-text{font-size:28px;font-weight:bold;color:#1a1a1a;letter-spacing:1px}
+.logo-text span{color:#cc0c1a}
+.tagline{color:#888;font-size:12px;margin-bottom:15px}
+.app-title{background:linear-gradient(135deg,#cc0c1a,#a00a15);color:#fff;padding:10px 20px;border-radius:20px;font-size:14px;font-weight:bold;display:inline-block}
+.card{background:#fff;border-radius:16px;padding:20px;margin-bottom:15px;box-shadow:0 2px 10px rgba(0,0,0,0.1)}
+h2{color:#1a1a1a;font-size:16px;margin-bottom:15px;border-bottom:2px solid #cc0c1a;padding-bottom:8px}
+.row{display:flex;gap:10px;margin-bottom:12px}
+.field{flex:1}
+label{display:block;font-size:12px;color:#666;margin-bottom:4px}
+input,select{width:100%;padding:12px;border:2px solid #e0e0e0;border-radius:8px;font-size:16px}
+input:focus,select:focus{border-color:#cc0c1a;outline:none}
+.btn{width:100%;padding:14px;background:#cc0c1a;color:#fff;border:none;border-radius:8px;font-size:16px;font-weight:bold;cursor:pointer;margin-top:10px}
+.btn:active{transform:scale(0.98);background:#a00a15}
+.results{display:none}
+.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.result-item{background:#f8f8f8;padding:12px;border-radius:8px;text-align:center;border-left:3px solid #cc0c1a}
+.result-item .value{font-size:18px;font-weight:bold;color:#1a1a1a}
+.result-item .label{font-size:10px;color:#666;margin-top:4px}
+.processor{background:#fff5f5;padding:12px;border-radius:8px;margin-top:10px;border:1px solid #ffdddd}
+.processor .title{font-weight:bold;color:#cc0c1a;font-size:13px}
+.processor .rec{font-size:12px;color:#333;margin-top:5px}
+.share-btn{background:#25d366;margin-top:10px}
+.share-btn:active{background:#128c7e}
+.footer{background:#1a1a1a;border-radius:16px;padding:20px;text-align:center;color:#fff}
+.footer-logo{font-size:20px;font-weight:bold;margin-bottom:5px}
+.footer-logo span{color:#cc0c1a}
+.footer p{font-size:11px;color:#888;margin-top:8px}
+.footer .slogan{color:#ccc;font-size:13px;margin:10px 0}
+.countries{display:flex;justify-content:center;gap:15px;margin-top:10px;flex-wrap:wrap}
+.countries span{font-size:10px;color:#666}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="header" style="background:#cc0c1a;padding:15px;margin-bottom:15px;border-radius:16px;text-align:center">
+<div style="color:#fff;font-size:28px;font-weight:bold">⚡ JUANSELED - TÉCNICA ⚡</div>
+<div style="color:#fff;font-size:12px;margin-top:8px">JUANSELED | Herramientas Técnicas Profesionales</div>
+</div>
+
+<div class="card">
+<h2>📐 Configuración de Pantalla</h2>
+<div class="row">
+<div class="field">
+<label>Gabinetes Ancho</label>
+<input type="number" id="ancho" step="1" value="8" min="1">
+</div>
+<div class="field">
+<label>Gabinetes Alto</label>
+<input type="number" id="alto" step="0.5" value="4" min="0.5">
+</div>
+</div>
+<div class="field">
+<label>Producto</label>
+<select id="pitch">
+<optgroup label="RENTAL">
+<option value="2.9-500">P2.9 Súper Flex 500x500</option>
+<option value="2.9-500x1000">P2.9 Súper Flex 500x1000</option>
+<option value="2.9-500">P2.9 Recto 500x500</option>
+<option value="2.9-500x1000">P2.9 Recto 500x1000</option>
+<option value="2.9-500">P2.9 Curvo 500x500</option>
+<option value="2.9-500x1000">P2.9 Curvo 500x1000</option>
+<option value="2.9-500">P2.9 45° 500x500</option>
+<option value="2.9-500x1000">P2.9 45° 500x1000</option>
+<option value="3.9-500" selected>P3.9 Súper Flex 500x500</option>
+<option value="3.9-500x1000">P3.9 Súper Flex 500x1000</option>
+<option value="3.9-500">P3.9 Recto 500x500</option>
+<option value="3.9-500x1000">P3.9 Recto 500x1000</option>
+<option value="3.9-500">P3.9 Curvo 500x500</option>
+<option value="3.9-500x1000">P3.9 Curvo 500x1000</option>
+<option value="3.9-500">P3.9 45° 500x500</option>
+<option value="3.9-500x1000">P3.9 45° 500x1000</option>
+<option value="4.8-500">P4.8 Súper Flex 500x500</option>
+<option value="4.8-500x1000">P4.8 Súper Flex 500x1000</option>
+<option value="4.8-500">P4.8 Recto 500x500</option>
+<option value="4.8-500x1000">P4.8 Recto 500x1000</option>
+<option value="4.8-500">P4.8 Curvo 500x500</option>
+<option value="4.8-500x1000">P4.8 Curvo 500x1000</option>
+<option value="4.8-500">P4.8 45° 500x500</option>
+<option value="4.8-500x1000">P4.8 45° 500x1000</option>
+</optgroup>
+<optgroup label="OUTDOOR FIX">
+<option value="3-960">P3 Outdoor 960x960</option>
+<option value="4-960">P4 Outdoor 960x960</option>
+<option value="5-960">P5 Outdoor 960x960</option>
+<option value="6-960">P6 Outdoor 960x960</option>
+<option value="8-960">P8 Outdoor 960x960</option>
+<option value="10-960">P10 Outdoor 960x960</option>
+</optgroup>
+<optgroup label="INDOOR FIX">
+<option value="1.2-640x480">P1.2 Indoor 640x480</option>
+<option value="1.5-640x480">P1.5 Indoor 640x480</option>
+<option value="1.8-640x480">P1.8 Indoor 640x480</option>
+<option value="2.5-640x480">P2.5 Indoor 640x480</option>
+<option value="4-640x480">P4 Indoor 640x480</option>
+</optgroup>
+</select>
+</div>
+<button class="btn" onclick="calcular()">CALCULAR</button>
+</div>
+
+<div class="card results" id="results">
+<h2>📊 Resultados</h2>
+<div class="result-grid">
+<div class="result-item"><div class="value" id="r-medida">-</div><div class="label">MEDIDA PANTALLA</div></div>
+<div class="result-item"><div class="value" id="r-pulg">-</div><div class="label">PULGADAS</div></div>
+<div class="result-item"><div class="value" id="r-res">-</div><div class="label">RESOLUCIÓN (px)</div></div>
+<div class="result-item"><div class="value" id="r-pix">-</div><div class="label">PÍXELES TOTALES</div></div>
+<div class="result-item"><div class="value" id="r-gab">-</div><div class="label">GABINETES</div></div>
+<div class="result-item"><div class="value" id="r-m2">-</div><div class="label">SUPERFICIE m²</div></div>
+<div class="result-item"><div class="value" id="r-peso">-</div><div class="label">PESO (kg)</div></div>
+<div class="result-item"><div class="value" id="r-consumo">-</div><div class="label">CONSUMO PROM (W/A)</div></div>
+<div class="result-item"><div class="value" id="r-aspect">-</div><div class="label">% vs 16:9</div></div>
+<div class="result-item"><div class="value" id="r-bocas">-</div><div class="label">BOCAS DATA</div></div>
+<div class="result-item"><div class="value" id="r-fhd">-</div><div class="label">% FULL HD</div></div>
+<div class="result-item"><div class="value" id="r-4k">-</div><div class="label">% 4K</div></div>
+</div>
+<div class="processor">
+<div class="title">🎛️ Procesador Recomendado</div>
+<div class="rec" id="r-proc">-</div>
+</div>
+<button class="btn share-btn" onclick="compartir()">📤 COMPARTIR RESULTADO</button>
+</div>
+
+<div class="footer">
+<div class="footer-logo">JUANSELED<span>-TÉCNICA</span></div>
+<div class="slogan">Herramientas técnicas profesionales para montajes LED</div>
+<p>Juanseled Servicios Técnicos</p>
+<div class="countries">
+<span>🇦🇷 Buenos Aires</span>
+<span>Disponible en LATAM</span>
+</div>
+<p style="margin-top:15px;color:#666">www.juanseled.com</p>
+</div>
+
+</div>
+
+<script>
+function calcular(){
+const gabX=parseFloat(document.getElementById('ancho').value);
+const gabY=parseFloat(document.getElementById('alto').value);
+const sel=document.getElementById('pitch').value.split('-');
+const pitch=parseFloat(sel[0]);
+const gab=sel[1];
+
+let gabW,gabH;
+if(gab==='500x1000'){gabW=500;gabH=1000;}
+else if(gab==='640x480'){gabW=640;gabH=480;}
+else if(gab==='960'){gabW=960;gabH=960;}
+else{gabW=500;gabH=500;}
+
+const totalGab=Math.ceil(gabX)*Math.ceil(gabY);
+const anchoReal=(gabX*gabW)/1000;
+const altoReal=(gabY*gabH)/1000;
+const m2=anchoReal*altoReal;
+
+const pxPorGabX=Math.floor(gabW/pitch);
+const pxPorGabY=Math.floor(gabH/pitch);
+const resX=Math.round(gabX*pxPorGabX);
+const resY=Math.round(gabY*pxPorGabY);
+const pixTotal=resX*resY;
+
+const pesoGab=pitch<=3?7:pitch<=5?8:10;
+const peso=totalGab*pesoGab;
+
+const consumoM2=pitch<=3?600:pitch<=5?500:400;
+const consumoMax=Math.round(m2*consumoM2);
+const consumoProm=Math.round(consumoMax*0.4);
+
+const gcd=(a,b)=>b?gcd(b,a%b):a;
+const div=gcd(resX,resY);
+const aspX=resX/div;
+const aspY=resY/div;
+const aspectRatio=(resX/resY).toFixed(2);
+
+const bocas=(pixTotal/650000).toFixed(2);
+
+const fhdPix=1920*1080;
+const fourKPix=3840*2160;
+const pctFHD=((pixTotal/fhdPix)*100).toFixed(0);
+const pct4K=((pixTotal/fourKPix)*100).toFixed(0);
+
+const ratio169=16/9;
+const aspRatio=resX/resY;
+const pct169=(((ratio169/aspRatio))*100).toFixed(0);
+
+const diagonal=Math.sqrt(Math.pow(anchoReal*100,2)+Math.pow(altoReal*100,2))/2.54;
+
+let proc;
+if(pixTotal<=650000)proc="Novastar VX4S";
+else if(pixTotal<=1300000)proc="Novastar VX6S";
+else if(pixTotal<=2600000)proc="Novastar NovaPro UHD Jr";
+else proc="Novastar H Series";
+
+const amperesProm=(consumoProm/220).toFixed(1);
+
+document.getElementById('r-medida').textContent=anchoReal.toFixed(2)+'m x '+altoReal.toFixed(2)+'m';
+document.getElementById('r-pulg').textContent=Math.round(diagonal)+'"';
+document.getElementById('r-res').textContent=resX+'x'+resY;
+document.getElementById('r-pix').textContent=pixTotal.toLocaleString()+' px';
+document.getElementById('r-gab').textContent=totalGab+' ('+gabX+'x'+gabY+')';
+document.getElementById('r-m2').textContent=m2.toFixed(2);
+document.getElementById('r-peso').textContent=peso;
+document.getElementById('r-consumo').textContent=consumoProm+'W / '+amperesProm+'A';
+document.getElementById('r-aspect').textContent=pct169+'%';
+document.getElementById('r-bocas').textContent=bocas;
+document.getElementById('r-fhd').textContent=pctFHD+'%';
+document.getElementById('r-4k').textContent=pct4K+'%';
+document.getElementById('r-proc').textContent=proc;
+
+document.getElementById('results').style.display='block';
+document.getElementById('results').scrollIntoView({behavior:'smooth'});
+}
+
+function compartir(){
+const sel=document.getElementById('pitch').value.split('-');
+const txt=`⚡ DINA-METRIC by DINALIGHT
+Calculadora LED
+
+📐 Gabinetes: ${document.getElementById('ancho').value} x ${document.getElementById('alto').value}
+📍 Producto: P${sel[0]} (${sel[1]})
+
+📊 RESULTADOS:
+• Medida: ${document.getElementById('r-medida').textContent}
+• Pulgadas: ${document.getElementById('r-pulg').textContent}
+• Resolución: ${document.getElementById('r-res').textContent}
+• Píxeles: ${document.getElementById('r-pix').textContent}
+• Gabinetes: ${document.getElementById('r-gab').textContent}
+• Superficie: ${document.getElementById('r-m2').textContent} m²
+• Peso: ${document.getElementById('r-peso').textContent} kg
+• Consumo Prom: ${document.getElementById('r-consumo').textContent}
+• vs 16:9: ${document.getElementById('r-aspect').textContent}
+• Bocas Data: ${document.getElementById('r-bocas').textContent}
+• vs Full HD: ${document.getElementById('r-fhd').textContent}
+• vs 4K: ${document.getElementById('r-4k').textContent}
+• Procesador: ${document.getElementById('r-proc').textContent}
+
+🔗 Calculá gratis: dinalight.com/dinametric
+⚡ DINALIGHT - Soluciones en pantallas LED
++20 años en LATAM 🇦🇷🇨🇱🇪🇨🇵🇦🇬🇹`;
+
+if(navigator.share){
+navigator.share({title:'Cálculo LED - Dina-Gift',text:txt});
+}else{
+navigator.clipboard.writeText(txt);
+alert('¡Copiado al portapapeles!');
+}
+}
+</script>
+</body>
+</html>
